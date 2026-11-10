@@ -1,3 +1,5 @@
+> 中文说明见 [README.zh-CN.md](README.zh-CN.md)。
+
 # dsh-mobile-remote
 
 A small **[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH) plugin** that gives the official DSH Web UI a phone/tablet skin and a one-time pairing flow, so you can continue the **same live DSH session** from your iPhone or iPad over [Tailscale](https://tailscale.com).

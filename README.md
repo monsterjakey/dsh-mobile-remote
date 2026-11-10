@@ -1,11 +1,26 @@
 # dsh-mobile-remote
 
-A small **[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH) plugin** that gives the official DSH Web UI a phone/tablet skin and a one-time pairing flow, so you can continue the **same live DSH session** from your iPhone or iPad over [Tailscale](https://tailscale.com).
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-- No second DSH instance, no data sync: the phone is another window into the DSH running on your Mac.
-- No public listener, no third-party relay: the DSH web server stays on `127.0.0.1`; the plugin points `tailscale serve` at it.
-- Authentication stays the official launch-token → signed-cookie flow; the plugin only adds a short-code pairing page.
-- Unofficial community project, MIT licensed. Not affiliated with DeepSeek.
+[![release](https://img.shields.io/github/v/release/monsterjakey/dsh-mobile-remote?label=release)](https://github.com/monsterjakey/dsh-mobile-remote/releases)
+[![license](https://img.shields.io/github/license/monsterjakey/dsh-mobile-remote)](LICENSE)
+![DSH](https://img.shields.io/badge/DSH-0.2.2.x-blue)
+![Tailscale](https://img.shields.io/badge/Tailscale-required-4B70F5)
+
+Use the **same live [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH) session from your iPhone or iPad** — with a proper mobile skin, one-time pairing, and zero public exposure.
+
+A tiny **[DSH](https://github.com/deepseek-ai/deepseek-harness) plugin**: no second DSH, no data sync, no rewrite of the official Web UI. Your phone is simply another window into the DSH running on your Mac, over [Tailscale](https://tailscale.com).
+
+<p align="center"><img src="docs/preview-phone.png" alt="dsh-mobile-remote on iPhone" width="320"></p>
+
+## Why it's nice
+
+- **Ridiculously simple.** Install with one `dsh plugin add` command, pair with a 6-digit code. No frontend rebuild, no reverse-proxy config, no public IP, no extra server.
+- **Tiny and dependency-free.** ~19 KB install package; three small JS files and one CSS file; **zero runtime npm dependencies**, no telemetry, no third-party requests.
+- **Secure by default.** DSH keeps listening on `127.0.0.1`; the plugin never touches Funnel; authentication stays the official launch-token → signed-cookie flow. The pairing code is single-use with a 30-minute TTL, and the token never leaves the Mac.
+- **Self-healing.** The desktop Host gets a new random port on every launch. The plugin automatically re-points `tailscale serve` at it, retries at 2/5/10/20/40 s after boot, then reconciles every 5 minutes. Sleep, crash, restart — the phone still works.
+- **Native, not a skin wrapper app.** It's the real official Web UI and the real session: same files, same running jobs, same conversation.
+- **Auditable.** MIT, ~800 lines total, a built-in exposure checker (`scripts/check-exposure.mjs`) that verifies Funnel is off, Serve is tailnet-only, and Tailscale SSH is off.
 
 ## How it works
 
@@ -24,18 +39,15 @@ The same DSH Host the desktop app is running
        · reconciles `tailscale serve` after every boot and every 5 minutes
 ```
 
-The desktop Host binds an OS-assigned port on each launch; the plugin re-points
-`tailscale serve` to the current port, retries at 2/5/10/20/40 s after boot, and
-keeps a 5-minute reconciliation loop, so sleeping the Mac or restarting the app
-does not strand the phone on a stale port.
+The phone never receives a copy of your data and never talks to a third-party relay: Tailscale creates a private WireGuard tunnel straight to your Mac.
 
 ## Features
 
-- Phone/tablet skin scoped to `html.dshm-mobile` — desktop UI unaffected.
+- Phone/tablet skin scoped to `html.dshm-mobile` — desktop UI unaffected; large tablet layouts keep the official layout.
 - `#dshm-off` / `#dshm-on` switch for A/B testing (persisted in localStorage).
-- Pairing page with short code; token never leaves the Mac.
+- Pairing page with short code; the launch token stays on the Mac.
 - Automatic tailnet URL detection (`tailscale status --json`) and serve refresh.
-- Touch scroll rescue for iOS Safari + optional floating ↑/↓ page buttons.
+- Touch scroll rescue for iOS Safari + floating ↑/↓ page buttons.
 - `scripts/check-exposure.mjs`: verifies Funnel is off, Serve is tailnet-only,
   Tailscale SSH is off, and the Serve target matches the current DSH port.
 - `scripts/setup-profile.mjs`: computes your tailnet hostname, backs up the
@@ -49,37 +61,41 @@ does not strand the phone on a stale port.
   and the `tailscale` CLI available (`/usr/local/bin/tailscale` by default).
 - Tailscale app on the phone.
 
-## Install (from a clone)
+## Install
+
+### From GitHub (recommended)
 
 ```bash
-git clone <this-repo> dsh-mobile-remote
-cd dsh-mobile-remote
-
 DSH="/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh"
-"$DSH" plugin --profile desktop add -w "link:$PWD"
-
-# Computes your tailnet host, backs up the profile patch, writes:
-#   connection.trustedHosts, mobile-remote.publicBaseUrl/autoServe
+"$DSH" plugin --profile desktop add -w github:monsterjakey/dsh-mobile-remote
 node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profile.mjs
 ```
 
-Restart DSH Desktop once, then on the phone:
+### From a clone
+
+```bash
+git clone https://github.com/monsterjakey/dsh-mobile-remote.git
+cd dsh-mobile-remote
+DSH="/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh"
+"$DSH" plugin --profile desktop add -w "link:$PWD"
+node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profile.mjs
+```
+
+### From the release tarball
+
+```bash
+"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.2.tgz
+```
+
+Then restart DSH Desktop once, and on the phone:
 
 1. Open `https://<this-mac>.<tailnet>.ts.net/__dshm/pair`
 2. Enter the `pairingCode` from `~/.dsh/mobile-remote.json`
-3. Afterwards bookmark `https://<this-mac>.<tailnet>.ts.net/` (cookie lasts 7 days)
-
-Other install shapes:
-
-- Tarball: `"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.2.tgz`
-- GitHub: `"$DSH" plugin --profile desktop add -w github:<owner>/dsh-mobile-remote`
-
-The deployment entries added by `setup-profile.mjs` live in
-`~/.dsh/profiles/desktop/cordis.patch.yml` (the bundle itself is self-contained).
+3. Bookmark `https://<this-mac>.<tailnet>.ts.net/` (cookie lasts 7 days)
 
 ## Troubleshooting
 
-iPhone/pad cannot reach DSH:
+iPhone/iPad cannot reach DSH:
 
 ```bash
 node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/check-exposure.mjs
