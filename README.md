@@ -22,6 +22,18 @@ A tiny **[DSH](https://github.com/deepseek-ai/deepseek-harness) plugin**: no sec
 - **Native, not a skin wrapper app.** It's the real official Web UI and the real session: same files, same running jobs, same conversation.
 - **Auditable.** MIT, ~800 lines total, a built-in exposure checker (`scripts/check-exposure.mjs`) that verifies Funnel is off, Serve is tailnet-only, and Tailscale SSH is off.
 
+## Even better on iPhone Duo (landscape)
+
+Unfolded in landscape, iPhone Duo gives the plugin a small-tablet canvas: the
+sidebar and the conversation can sit side by side, code blocks and tables need
+far less horizontal scrolling, and long sessions are much more comfortable to
+read. Above 1024 px the plugin deliberately keeps the official desktop layout
+and only adds the touch scroll rescue + floating ↑/↓ page buttons.
+
+<p align="center"><img src="docs/preview-iphone-duo-landscape.png" alt="iPhone Duo landscape preview" width="720"></p>
+
+> Screenshot: 1220 × 858 CSS viewport (iPhone Duo unfolded, landscape), sidebar collapsed for focus.
+
 ## How it works
 
 ```

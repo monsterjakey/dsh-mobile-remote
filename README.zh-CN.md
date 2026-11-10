@@ -22,6 +22,14 @@
 - **原生体验，不是套壳 App**：看到的就是官方 Web UI 和真实会话——同一个项目、同一个正在跑的任务、同一份上下文。手机只是换了一块屏幕。
 - **代码短、可审计**：MIT，大约 800 行；没有遥测；`scripts/check-exposure.mjs` 一键检查 Funnel 是否关闭、Serve 是否仅 tailnet、Tailscale SSH 是否关闭、端口是否对得上。
 
+## iPhone Duo 横屏体验更佳
+
+展开横屏后，iPhone Duo 接近一块小尺寸平板：侧栏和对话可以并排，代码块/表格需要横向滚动的次数明显变少，长会话读起来也舒服得多。宽度超过 1024px 时插件会自动保留官方桌面布局，只额外提供触摸滚动救援和右下角 ↑/↓ 翻页按钮。
+
+<p align="center"><img src="docs/preview-iphone-duo-landscape.png" alt="iPhone Duo 横屏效果" width="720"></p>
+
+> 截图：1220 × 858 CSS 视口（iPhone Duo 展开横屏，侧栏收起专注对话）。
+
 ## 它是怎么工作的
 
 ```
