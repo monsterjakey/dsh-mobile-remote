@@ -1,0 +1,14 @@
+# dsh-mobile-remote bundle patch: mount the mobile skin/pairing plugin
+# under its row id. The plugin discovers the tailnet DNS name from
+# `tailscale status --json` and refreshes `tailscale serve` on every boot.
+#
+# Deployment-only requirement (keep in the profile's user patch, not here):
+#   - id: connection
+#     name: '@deepseek-ai/dsh-client-connection'
+#     config:
+#       trustedHosts: ['<this-mac>.<tailnet>.ts.net']
+- insert:
+    - id: mobile-remote
+      name: dsh-mobile-remote
+      config:
+        autoServe: true

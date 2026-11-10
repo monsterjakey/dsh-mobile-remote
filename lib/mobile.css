@@ -1,0 +1,145 @@
+/* dsh-mobile-remote — mobile skin for the official DSH Web UI.
+ *
+ * Scoped under html.dshm-mobile (added by mobile.js only on phones and narrow
+ * viewports). Desktop browsers, the Electron shell (dsh-app://) and large
+ * tablet layouts (> 1024px) never get these overrides.
+ *
+ * 0.2.2: conservative pass — the previous version enlarged every
+ * button[aria-label] and let flex children keep min-height:auto, which could
+ * squeeze the conversation (layout overflow) when many plugins added composer
+ * and message buttons. Keep message content untouched.
+ */
+
+html.dshm-mobile {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Classic flex overflow fix: without min-height:0 a flex child refuses to
+ * shrink, so a taller composer/header pushes the conversation down and the
+ * inner scroller can become unreachable. */
+html.dshm-mobile [class*='frame'],
+html.dshm-mobile [class*='centerCol'],
+html.dshm-mobile [class*='mainPanel'],
+html.dshm-mobile [class*='viewArea'],
+html.dshm-mobile [class*='scrollBody'] {
+  min-height: 0;
+}
+
+/* The real conversation scroller: keep it vertically scrollable and make it
+ * tolerate nested touch scrolling on iOS. */
+html.dshm-mobile [class*='scrollBody'] {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scroll-padding-bottom: calc(var(--dshm-composer-h, 0px) + 12px);
+}
+
+/* iOS zooms the whole page when a focused input is smaller than 16px. Scope
+ * it to the composer so message rendering is untouched. */
+html.dshm-mobile [class*='composerSeat'] input,
+html.dshm-mobile [class*='composerSeat'] textarea,
+html.dshm-mobile [class*='composerSeat'] [contenteditable='true'] {
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+}
+
+/* Keep the composer above the home indicator. */
+html.dshm-mobile [class*='composerSeat'] {
+  padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+  /* Many plugins add rows of tool buttons; cap the composer height so the
+   * conversation keeps a usable viewport (the composer itself scrolls). */
+  max-height: 62dvh;
+  overflow-y: auto;
+}
+
+html.dshm-mobile [class*='composerStack'] {
+  padding-left: max(0px, env(safe-area-inset-left, 0px));
+  padding-right: max(0px, env(safe-area-inset-right, 0px));
+}
+
+/* Bottom frame / status strip: leave room for the home indicator. */
+html.dshm-mobile [class*='bottomRow'],
+html.dshm-mobile [class*='statusBar'] {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Desktop shortcut hints (⌘B, ⌘P, …) are meaningless on touch. */
+html.dshm-mobile kbd,
+html.dshm-mobile [class*='shortcut'] {
+  display: none !important;
+}
+
+/* Long code / tables must scroll inside the message column, never the page. */
+html.dshm-mobile pre,
+html.dshm-mobile table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Touch targets only for app chrome — never for buttons inside messages
+ * (those are measured by the conversation renderer). */
+html.dshm-mobile [class*='header'] button[aria-label],
+html.dshm-mobile [class*='header'] [class*='iconButton'],
+html.dshm-mobile [class*='composerSeat'] button[aria-label],
+html.dshm-mobile [class*='composerSeat'] [class*='iconButton'] {
+  min-width: 38px;
+  min-height: 38px;
+}
+
+/* Dialogs become bottom-sheet-ish instead of a small desktop window. */
+html.dshm-mobile [role='dialog'] {
+  max-height: 88dvh;
+  overflow-y: auto;
+}
+
+/* Sidebar rail on short/landscape phones: many plugins would otherwise be
+ * clipped because the rail cannot scroll. */
+@media (max-width: 1024px) and (max-height: 520px) {
+  html.dshm-mobile [class*='sidebarCol'] {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* While the iOS keyboard is open, keep the conversation clear of it. */
+html.dshm-mobile.dshm-kb [class*='scrollBody'] {
+  scroll-padding-bottom: 24vh;
+}
+
+/* Floating scroll rescue: iOS Safari occasionally swallows touch scrolling in
+ * long sessions; these buttons always work. */
+html.dshm-mobile .dshm-scrollctl,
+html.dshm-tablet .dshm-scrollctl {
+  position: fixed;
+  right: max(10px, env(safe-area-inset-right, 0px));
+  bottom: calc(var(--dshm-composer-h, 64px) + 14px + env(safe-area-inset-bottom, 0px));
+  z-index: 2147483000;
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+html.dshm-mobile .dshm-scrollctl[data-visible='1'],
+html.dshm-tablet .dshm-scrollctl[data-visible='1'] { display: flex; }
+html.dshm-mobile .dshm-scrollctl button,
+html.dshm-tablet .dshm-scrollctl button {
+  pointer-events: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  background: color-mix(in srgb, #151517 72%, transparent);
+  color: #e8e8ea;
+  font-size: 17px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.82;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+html.dshm-mobile .dshm-scrollctl button[disabled],
+html.dshm-tablet .dshm-scrollctl button[disabled] { opacity: 0.3; }

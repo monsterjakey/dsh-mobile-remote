@@ -1,0 +1,50 @@
+{
+  "name": "dsh-mobile-remote",
+  "version": "0.2.2",
+  "type": "module",
+  "description": "Mobile skin, pairing helper and Tailscale serve reconciliation for the official DeepSeek Harness Web UI",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "scripts",
+    "README.md",
+    "INSTALL.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "compatibility": {
+      "dsh": ">=0.2.2-0 <0.3.0"
+    }
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "remote",
+    "mobile",
+    "tailscale",
+    "iphone",
+    "ipad"
+  ],
+  "author": {
+    "name": "monsterjakey"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monsterjakey/dsh-mobile-remote.git"
+  },
+  "homepage": "https://github.com/monsterjakey/dsh-mobile-remote",
+  "bugs": {
+    "url": "https://github.com/monsterjakey/dsh-mobile-remote/issues"
+  }
+}
