@@ -34,6 +34,21 @@ and only adds the touch scroll rescue + floating ↑/↓ page buttons.
 
 > Screenshot: 1220 × 858 CSS viewport (iPhone Duo unfolded, landscape), sidebar collapsed for focus.
 
+## Pair from the left sidebar
+
+After installing and restarting DSH Desktop, a **Mobile remote** entry appears in
+the left sidebar. It shows the live pairing code with a countdown, and offers:
+
+- **Copy code** — paste it into the phone pairing page;
+- **New code** — rotate the pairing code immediately;
+- **Copy pairing page** / **Open pairing page** — jump straight to
+  `/__dshm/pair` on the tailnet URL;
+- **Copy command** — the terminal fallback.
+
+The code shown here is injected into the authenticated page by the Host; the
+launch token never enters the page. On a phone (tailnet page) the same panel
+still opens, but code reading/refreshing is a Mac-side action.
+
 ## How it works
 
 ```
@@ -56,6 +71,7 @@ The phone never receives a copy of your data and never talks to a third-party re
 ## Features
 
 - Phone/tablet skin scoped to `html.dshm-mobile` — desktop UI unaffected; large tablet layouts keep the official layout.
+- **Left sidebar page**: after restart, open **Mobile remote** to see the current pairing code, copy it, rotate it with one click, or open the pairing page — no terminal needed.
 - `#dshm-off` / `#dshm-on` switch for A/B testing (persisted in localStorage).
 - Pairing page with short code; the launch token stays on the Mac.
 - `scripts/pairing.mjs`: print (`--refresh` to rotate) the current pairing code from the command line.
@@ -97,7 +113,7 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profil
 ### From the release tarball
 
 ```bash
-"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.3.tgz
+"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.3.0.tgz
 ```
 
 Then restart DSH Desktop once, and on the phone:

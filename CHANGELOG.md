@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0
+
+- New **Mobile remote** page in the left sidebar (`sidebar.panellist` + the
+  layout `main` keyed slot). It shows the live pairing code with a countdown,
+  copies it, rotates it with one click, and links to the pairing page.
+- The Host injects a read-only pairing snapshot (code/expiry/port/pairing URL,
+  never the launch token) into the authenticated page, so the panel works even
+  when the browser cannot call the loopback endpoint.
+- New localized plugin metadata (`locale/en.json`, `locale/zh.json`) and an
+  original sidebar icon; the bundle now ships a web Client entry
+  (`dsh.client`, `./client`, `./locale/*.json`, `./icon`).
+- Docs: left-sidebar pairing section (EN/中文), command-copy label fix.
+
 ## 0.2.3
 
 - Pairing codes rotate automatically: opening `/__dshm/pair` after a code

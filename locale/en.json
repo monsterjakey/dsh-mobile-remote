@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Mobile remote",
+    "description": "Access the official DSH Web UI from your iPhone or iPad over Tailscale. Adds a Mobile remote page to the left sidebar with the current pairing code, copy/refresh actions and a link to the pairing page. Both devices must be connected to the same tailnet."
+  }
+}

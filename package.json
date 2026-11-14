@@ -1,14 +1,19 @@
 {
   "name": "dsh-mobile-remote",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "type": "module",
-  "description": "Mobile skin, pairing helper and Tailscale serve reconciliation for the official DeepSeek Harness Web UI",
+  "description": "Mobile skin, left-sidebar remote panel and pairing helper for the official DSH Web UI (Tailscale transport)",
   "main": "lib/index.js",
   "exports": {
-    ".": "./lib/index.js"
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
   },
   "files": [
     "lib",
+    "locale",
+    "icon.svg",
     "cordis.patch.yml",
     "scripts",
     "README.md",
@@ -22,6 +27,14 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
     },
     "compatibility": {
       "dsh": ">=0.2.2-0 <0.3.0"

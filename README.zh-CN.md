@@ -30,6 +30,19 @@
 
 > 截图：1220 × 858 CSS 视口（iPhone Duo 展开横屏，侧栏收起专注对话）。
 
+## 直接在左侧「手机远程」页面配对
+
+安装并重启一次 DSH Desktop 后，左侧会多出 **手机远程** 入口。页面会显示
+当前配对码和倒计时，并提供：
+
+- **复制配对码** —— 直接粘到手机配对页；
+- **换一个** —— 立刻轮换新的配对码；
+- **复制配对页 / 打开配对页** —— 直接打开 tailnet 上的 `/__dshm/pair`；
+- **复制命令** —— 终端兜底方案。
+
+页面里的配对码由 Host 注入到已登录页面，token 不会进入网页。在手机上打开
+同一个页面也能看说明，但读码/换码仍建议在 Mac 端操作。
+
 ## 它是怎么工作的
 
 ```
@@ -52,6 +65,7 @@ Mac 上的 tailscaled（tailscale serve --https=443 → 127.0.0.1:<DSH 端口>�
 ## 功能
 
 - 手机/平板皮肤，作用域只有 `html.dshm-mobile` —— 桌面端完全不受影响，大屏平板保留官方布局；
+- **左侧新增「手机远程」页面**：安装并重启一次后，点开就能看到当前配对码，可复制、一键换新、打开配对页，不用再开终端。
 - `#dshm-off` / `#dshm-on` 一键开关皮肤（localStorage 记住选择），方便对比和排障；
 - 6 位码配对页；token 只在 Mac 本地交换，不显示在 UI 里；
 - `scripts/pairing.mjs`：命令行查看（`--refresh` 立即换新）当前配对码。
@@ -91,7 +105,7 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profil
 ### 从 Release 安装包安装
 
 ```bash
-"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.3.tgz
+"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.3.0.tgz
 ```
 
 然后重启一次 DSH Desktop，在手机上：

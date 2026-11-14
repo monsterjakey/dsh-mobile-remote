@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "手机远程",
+    "description": "通过 Tailscale 从 iPhone / iPad 使用官方 DSH Web UI。左侧新增「手机远程」页面，显示当前配对码，支持复制、刷新和打开配对页。手机和 Mac 需登录同一个 tailnet。"
+  }
+}

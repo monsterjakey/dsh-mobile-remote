@@ -73,7 +73,7 @@ Restart DSH Desktop once, then on the phone:
 
 Other install shapes:
 
-- Tarball: `"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.3.tgz`
+- Tarball: `"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.2.tgz`
 - GitHub: `"$DSH" plugin --profile desktop add -w github:<owner>/dsh-mobile-remote`
 
 The deployment entries added by `setup-profile.mjs` live in
