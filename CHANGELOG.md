@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.3
+
+- Pairing codes rotate automatically: opening `/__dshm/pair` after a code
+  expired or was used mints a fresh code and republishes
+  `~/.dsh/mobile-remote.json`, so an expired code no longer requires a DSH
+  restart.
+- New loopback-only endpoint `/__dshm-local/pairing` and helper script
+  `scripts/pairing.mjs`:
+  - `node scripts/pairing.mjs` prints the current code/expiry/pairing URL;
+  - `node scripts/pairing.mjs --refresh` rotates it immediately;
+  - non-loopback requests are rejected with 403.
+- Docs: "pairing code expired" section, plus the iPhone Duo landscape section
+  and preview screenshot.
+
 ## 0.2.2
 
 - Mobile skin is limited to phones and viewports <= 1024px; large tablets keep

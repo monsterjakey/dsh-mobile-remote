@@ -54,6 +54,7 @@ Mac 上的 tailscaled（tailscale serve --https=443 → 127.0.0.1:<DSH 端口>�
 - 手机/平板皮肤，作用域只有 `html.dshm-mobile` —— 桌面端完全不受影响，大屏平板保留官方布局；
 - `#dshm-off` / `#dshm-on` 一键开关皮肤（localStorage 记住选择），方便对比和排障；
 - 6 位码配对页；token 只在 Mac 本地交换，不显示在 UI 里；
+- `scripts/pairing.mjs`：命令行查看（`--refresh` 立即换新）当前配对码。
 - 自动探测 tailnet 域名（`tailscale status --json`）并刷新 `tailscale serve`；
 - iOS Safari 触摸滚动救援 + 右下角 ↑/↓ 翻页按钮；
 - `scripts/check-exposure.mjs`：检查 Funnel 关闭、Serve 仅 tailnet、Tailscale SSH 关闭、Serve 目标端口与当前 DSH 端口一致；
@@ -90,7 +91,7 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profil
 ### 从 Release 安装包安装
 
 ```bash
-"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.2.tgz
+"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.3.tgz
 ```
 
 然后重启一次 DSH Desktop，在手机上：
@@ -121,6 +122,24 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/check-exposu
 - 长时间会话建议 `caffeinate` 保持 Mac 不睡眠。
 
 **布局 / 滚动问题：** 在网址后加 `#dshm-off` 可停用移动皮肤、对比官方布局；`#dshm-on` 恢复。
+
+## 配对码过期了怎么办？
+
+配对码是**30 分钟有效、一次性**的，这是安全设计。已经配对过的手机靠 **7 天登录 cookie** 继续使用，只有在清理了 Safari 数据、换手机或撤销 cookie 之后才需要重新输码。
+
+1. **先确认 Tailscale 在运行**。Tailscale 停止时手机根本连不上 Mac，和配对码无关。
+2. 读出当前配对码，或立即换一个新码：
+
+   ```bash
+   node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/pairing.mjs
+   node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/pairing.mjs --refresh
+   ```
+
+3. 手机打开 `https://<你的机器>.<你的 tailnet>.ts.net/__dshm/pair`，输入新码即可。
+
+0.2.3 起，插件在配对页被打开时会自动轮换过期/已使用的码，并同步写入
+`~/.dsh/mobile-remote.json`，不再需要重启 DSH。当前运行的插件需要是
+0.2.3 或更新；升级后重启一次 DSH Desktop 生效。
 
 ## 卸载
 

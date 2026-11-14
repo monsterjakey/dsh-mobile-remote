@@ -58,6 +58,7 @@ The phone never receives a copy of your data and never talks to a third-party re
 - Phone/tablet skin scoped to `html.dshm-mobile` — desktop UI unaffected; large tablet layouts keep the official layout.
 - `#dshm-off` / `#dshm-on` switch for A/B testing (persisted in localStorage).
 - Pairing page with short code; the launch token stays on the Mac.
+- `scripts/pairing.mjs`: print (`--refresh` to rotate) the current pairing code from the command line.
 - Automatic tailnet URL detection (`tailscale status --json`) and serve refresh.
 - Touch scroll rescue for iOS Safari + floating ↑/↓ page buttons.
 - `scripts/check-exposure.mjs`: verifies Funnel is off, Serve is tailnet-only,
@@ -96,7 +97,7 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profil
 ### From the release tarball
 
 ```bash
-"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.2.tgz
+"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.2.3.tgz
 ```
 
 Then restart DSH Desktop once, and on the phone:
@@ -121,6 +122,27 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/check-exposu
 
 Layout/scroll issues: append `#dshm-off` to the URL to disable the mobile skin
 and compare with the official layout; `#dshm-on` restores it.
+
+## Pairing code expired?
+
+The pairing code is a **30-minute single-use** code by design. Already-paired
+phones keep working through the 7-day login cookie — you only need a code after
+clearing Safari data, changing phones, or revoking the cookie.
+
+1. **Start the Tailscale app first.** If Tailscale is stopped, the phone cannot
+   reach the Mac at all, regardless of the pairing code.
+2. Print the current code, or rotate it immediately:
+
+   ```bash
+   node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/pairing.mjs
+   node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/pairing.mjs --refresh
+   ```
+
+3. Open `https://<this-mac>.<tailnet>.ts.net/__dshm/pair` and enter the code.
+
+On 0.2.3+ the plugin rotates expired/used codes automatically when the pairing
+page is opened, and republishes `~/.dsh/mobile-remote.json`. The running plugin
+must be 0.2.3 or newer — restart DSH Desktop once after upgrading.
 
 ## Uninstall
 

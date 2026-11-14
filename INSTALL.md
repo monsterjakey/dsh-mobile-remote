@@ -127,3 +127,7 @@ their respective owners; this is an independent community project.
 After installation and `setup-profile.mjs`, restart DSH Desktop and pair with the
 six-digit code from `~/.dsh/mobile-remote.json`. The plugin only works inside the
 same tailnet; nothing is exposed to the public internet.
+
+## Pairing code expired
+
+Use `scripts/pairing.mjs` to print or rotate the code (`--refresh`); in 0.2.3+ expired/used codes rotate automatically when `/__dshm/pair` is opened. Start the Tailscale app first if the phone cannot connect.

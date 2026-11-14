@@ -1,6 +1,6 @@
 {
   "name": "dsh-mobile-remote",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "description": "Mobile skin, pairing helper and Tailscale serve reconciliation for the official DeepSeek Harness Web UI",
   "main": "lib/index.js",
