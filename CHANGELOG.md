@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1
+
+- Security: the loopback-only pairing endpoint now also requires a direct
+  loopback `Host` header and rejects any request carrying `X-Forwarded-*`
+  headers. Tailscale Serve proxies tailnet requests from 127.0.0.1, so the
+  previous socket-address check alone did not distinguish a local browser from
+  a remote tailnet peer.
+
 ## 0.3.0
 
 - New **Mobile remote** page in the left sidebar (`sidebar.panellist` + the

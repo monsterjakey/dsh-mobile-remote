@@ -113,7 +113,7 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profil
 ### From the release tarball
 
 ```bash
-"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.3.0.tgz
+"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.3.1.tgz
 ```
 
 Then restart DSH Desktop once, and on the phone:

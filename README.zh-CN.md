@@ -105,7 +105,7 @@ node ~/.dsh/profiles/desktop/node_modules/dsh-mobile-remote/scripts/setup-profil
 ### 从 Release 安装包安装
 
 ```bash
-"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.3.0.tgz
+"$DSH" plugin --profile desktop add -w file:/path/to/dsh-mobile-remote-0.3.1.tgz
 ```
 
 然后重启一次 DSH Desktop，在手机上：

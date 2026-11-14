@@ -1,6 +1,6 @@
 {
   "name": "dsh-mobile-remote",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "Mobile skin, left-sidebar remote panel and pairing helper for the official DSH Web UI (Tailscale transport)",
   "main": "lib/index.js",
